@@ -5,7 +5,8 @@ from src.openai_functions import transcribe_audio, translate_transcription
 from src.eleven import generate_audio
 
 # This section lists the video files that have not been processed yet
-video_files = [f for f in os.listdir('./videos') if not f.endswith('_done')]
+
+video_files = [f for f in os.listdir('./videos') if f != '.gitkeep']
 
 # Display the list of available videos for the user to choose from
 print("📽️ Available videos:")
