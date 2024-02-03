@@ -1,0 +1,8 @@
+
+venv/
+.env
+/recording_sessions/*
+/output/*
+/videos/*
+!.gitkeep
+__pycache__
