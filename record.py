@@ -6,13 +6,23 @@ import wavio
 from src.eleven import generate_audio
 from src.openai_functions import transcribe_audio, translate_transcription
 
+# Print available devices and their IDs
+
+print("\033[92mAvailable audio devices:\033[0m")  # Green color start
+device_info = sd.query_devices()
+for i, device in enumerate(device_info):
+    print(f"ID: \033[92m{i}\033[0m, Name: {device['name']}")  # Green color end
+
+
+mic_id = int(input("\033[92mEnter the microphone ID: \033[0m"))  # User inputs the correct device ID
+
+
 TARGET_LANGUAGE = (
-    input("Enter the target language or skip to use the default one: ") or "English"
+    input("\033[94m Write the target language\033[0m or skip to use the default one: ") or "English"
 )
 
 print(TARGET_LANGUAGE)
 # Define the desired microphone ID
-mic_id = 1  # Replace with the correct device ID from the list
 fs = 44100  # Sample rate
 channels = 1  # Number of channels
 
@@ -35,7 +45,7 @@ while True:
 
         # Ask the user to press Enter to start recording
         input("Press Enter to start recording")
-        print("👂🏻 Listening...")
+        print("\033[91m👂🏻 Listening...\033[0m")
         # Start recording with the selected microphone
         stream = sd.InputStream(
             samplerate=fs, channels=channels, callback=callback, device=mic_id
@@ -56,13 +66,17 @@ while True:
 
         transcription = transcribe_audio(RECORDING_OUTPUT)
         translation = translate_transcription(transcription, TARGET_LANGUAGE)
-        
+
         # Save transcription and translation to text files
-        with open(f"{session_dir}/transcription.txt", "a", encoding="utf-8") as trans_file:
+        with open(
+            f"{session_dir}/transcription.txt", "a", encoding="utf-8"
+        ) as trans_file:
             trans_file.write(f"Recording {recording_counter}:\n{transcription}\n\n")
-        with open(f"{session_dir}/translation.txt", "a",encoding="utf-8") as translat_file:
+        with open(
+            f"{session_dir}/translation.txt", "a", encoding="utf-8"
+        ) as translat_file:
             translat_file.write(f"Recording {recording_counter}:\n{translation}\n\n")
-        
+
         print("👀 Generating translated audio...")
         # Generate audio and play it automatically
         generate_audio(text=translation, output_path=TRANSLATION_OUTPUT)

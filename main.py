@@ -11,14 +11,14 @@ video_files = [f for f in os.listdir('./videos') if f != '.gitkeep']
 # Display the list of available videos for the user to choose from
 print("📽️ Available videos:")
 for index, file in enumerate(video_files):
-    print(f"{index + 1}: {file}")
+    print(f"\033[92m{index + 1}\033[0m: {file}")
 
 # Prompt the user to select a video to process
-selected_index = input("Enter the number of the video you want to process: ")
+selected_index = input("Enter the \033[92m number \033[0m of the video you want to process: ")
 
 # Allow the user to specify a target language or use the default
 TARGET_LANGUAGE = (
-    input("Enter the target language or skip to use the default one: ") or "English"
+    input("Enter the \033[92mtarget language\033[0m or skip to use the default one: ") or "English"
 )
 
 # Validate the user's selection and exit if it's invalid
