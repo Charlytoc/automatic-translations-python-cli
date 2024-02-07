@@ -13,7 +13,10 @@ py -m venv venv
 source venv/Scripts/activate  # Windows
 source venv/bin/activate      # Unix/MacOS
 ```
-
+2. Instala las dependencias:
+```bash
+pip install -r requirements.txt
+```
 ## Configuración
 1. Duplica `.env.example` a `.env` y añade las credenciales:
 ```bash
