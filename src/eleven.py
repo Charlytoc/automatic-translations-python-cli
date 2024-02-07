@@ -4,7 +4,6 @@ from elevenlabs import generate, save, Voice, play
 
 load_dotenv()
 
-
 def generate_audio(
     text: str,
     voice: Voice = Voice(voice_id=os.environ.get("ELEVEN_VOICE_ID")),

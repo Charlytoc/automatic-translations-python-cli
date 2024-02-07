@@ -23,19 +23,20 @@ cp .env.example .env
 ## Uso de `main.py`
 Coloca los videos en `/videos` y ejecuta:
 ```bash
-python main.py
+python main.py --language [IDIOMA_OBJETIVO] --action [ACCIÓN]
 ```
-Selecciona un video y un idioma, luego comienza el procesamiento.
+- `--language` o `-l`: Especifica el idioma objetivo para la traducción (por defecto es inglés).
+- `--action` o `-a`: Define la última acción a realizar (opciones: extract, transcribe, translate, all).
+
+Selecciona un video e idioma, luego comienza el procesamiento.
 
 ## Uso de `record.py`
 Graba, transcribe y traduce audio en tiempo real:
 1. Elige el ID del micrófono para grabar:
-Primero la aplicación te va a mostrar los dispositivos disponibles, tan solo debes escribir el id del que te interesa usar.
-
+   Primero, la aplicación te mostrará los dispositivos disponibles, solo escribe el ID del que quieras usar.
 2. Establece el idioma objetivo:
-Luego te pedirá que escribas el idioma al que quieres traducir, puede ser cualquiera.
-
-3. ¡Luego solo debes presionar `Enter` para empezar a grabar y ya está!
+   Luego, se te pedirá que escribas el idioma al que quieres traducir, puede ser cualquier idioma.
+3. ¡Después de eso, solo presiona `Enter` para comenzar a grabar y listo!
 
 ## Salida
 - `main.py`: Audio MP3, transcripción, traducción y audio traducido en `/output`.

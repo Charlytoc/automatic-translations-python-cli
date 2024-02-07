@@ -3,6 +3,22 @@ import sys
 from moviepy.editor import VideoFileClip
 from src.openai_functions import transcribe_audio, translate_transcription
 from src.eleven import generate_audio
+import argparse
+
+actions = ['extract','transcribe', 'translate', 'all']
+# Parse command line arguments
+parser = argparse.ArgumentParser(description='Process video files.')
+parser.add_argument('--language', '-l', default='English', help='The target language for translation')
+parser.add_argument('--action', '-a', choices=actions, default='all', help='The last action to perform')
+args = parser.parse_args()
+
+TARGET_LANGUAGE = args.language
+ACTION = args.action
+
+selected_action_index = actions.index(ACTION)
+actions[-1] = "generate translated audio"
+print(f"Target language: {TARGET_LANGUAGE}")
+print(f"Actions to perform: {actions[:selected_action_index+1]}")
 
 # This section lists the video files that have not been processed yet
 
@@ -15,11 +31,6 @@ for index, file in enumerate(video_files):
 
 # Prompt the user to select a video to process
 selected_index = input("Enter the \033[92m number \033[0m of the video you want to process: ")
-
-# Allow the user to specify a target language or use the default
-TARGET_LANGUAGE = (
-    input("Enter the \033[92mtarget language\033[0m or skip to use the default one: ") or "English"
-)
 
 # Validate the user's selection and exit if it's invalid
 try:
@@ -43,24 +54,27 @@ if not os.path.exists(output_dir):
 output_audio_path = f"{output_dir}/{video_name}.mp3"
 
 # Process the video and extract the audio
-print(f"Processing {output_audio_path}...")
+print(f"Extracting audio from {video_name}...")
 video = VideoFileClip(video_path)
 audio = video.audio
 audio.write_audiofile(output_audio_path)
 
+
 # Transcribe the audio and translate the transcription
-transcription = transcribe_audio(output_audio_path)
-translation = translate_transcription(transcription, TARGET_LANGUAGE)
+if ACTION in ['transcribe','translate','all']:
+    transcription = transcribe_audio(output_audio_path)
+    with open(f'{output_dir}/transcription.txt', 'w', encoding='utf-8') as text_file:
+        text_file.write(transcription)
 
-# Save the transcription and translation to text files
-with open(f'{output_dir}/transcription.txt', 'w', encoding='utf-8') as text_file:
-    text_file.write(transcription)
-
-with open(f"{output_dir}/translation.txt", "w", encoding='utf-8') as text_file:
-    text_file.write(translation)
+if ACTION in ['translate', 'all']:
+    translation = translate_transcription(transcription, TARGET_LANGUAGE)
+    # Save the transcription and translation to text files
+    with open(f"{output_dir}/translation.txt", "w", encoding='utf-8') as text_file:
+        text_file.write(translation)
 
 # Generate an audio file from the translated text
-generate_audio(
-    text=translation,
-    output_path=f"{output_dir}/generated.mp3"
-)
+if ACTION in ['all']:
+    generate_audio(
+        text=translation,
+        output_path=f"{output_dir}/generated.mp3"
+    )

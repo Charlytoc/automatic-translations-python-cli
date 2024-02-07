@@ -15,8 +15,7 @@ def transcribe_audio(audio_file_path):
         )
     return transcription.text
 
-
-def translate_transcription(transcription:str, target_language="en"):
+def translate_transcription(transcription:str, target_language="English"):
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[

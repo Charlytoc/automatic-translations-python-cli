@@ -23,19 +23,19 @@ cp .env.example .env
 ## Using `main.py`
 Place videos in `/videos` and run:
 ```bash
-python main.py
+python main.py --language [TARGET_LANGUAGE] --action [ACTION]
 ```
-Select a video and language, then start processing.
+- `--language` or `-l`: Specify the target language for translation (default is English).
+- `--action` or `-a`: Define the last action to perform (options: extract, transcribe, translate, all).
 
+Select a video and language, then start processing.
 
 ## Using `record.py`
 Record, transcribe, and translate audio in real-time:
 1. Choose the microphone ID for recording:
    First, the application will show you the available devices, just type the ID of the one you want to use.
-
 2. Set the target language:
    Then, you will be prompted to write the language you want to translate to, it can be any language.
-
 3. After that, just press `Enter` to start recording and you're all set!
 
 ## Output
