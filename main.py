@@ -64,7 +64,7 @@ audio.write_audiofile(output_audio_path)
 if ACTION in ['transcribe','translate','all']:
     transcription = transcribe_audio(output_audio_path)
     with open(f'{output_dir}/transcription.txt', 'w', encoding='utf-8') as text_file:
-        text_file.write(transcription)
+        text_file.write(transcription) 
 
 if ACTION in ['translate', 'all']:
     translation = translate_transcription(transcription, TARGET_LANGUAGE)
@@ -74,7 +74,10 @@ if ACTION in ['translate', 'all']:
 
 # Generate an audio file from the translated text
 if ACTION in ['all']:
-    generate_audio(
+    translated_audio = generate_audio(
         text=translation,
         output_path=f"{output_dir}/generated.mp3"
     )
+
+
+print("🎉 Done!")
