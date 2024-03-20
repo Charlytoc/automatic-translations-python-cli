@@ -1,4 +1,8 @@
+
+
 # Automatic Translations Project - Comprehensive Guide
+
+If you want to see a video about how to use this repo, check this (video: )[https://youtu.be/CA7i_kcks-Q?si=klrLJy5_YdZR0HLZ]
 
 ## Prerequisites
 Ensure Python 3.x is installed:
