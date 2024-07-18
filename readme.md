@@ -1,4 +1,8 @@
+
 # Automatic Translations Project - Complete Guide
+
+
+If you want to see a video about how to use this repo, check this [video](https://youtu.be/CA7i_kcks-Q?si=klrLJy5_YdZR0HLZ)
 
 ## Prerequisites
 Ensure that Python 3.x is installed:
@@ -13,7 +17,10 @@ py -m venv venv
 source venv/Scripts/activate  # Windows
 source venv/bin/activate      # Unix/MacOS
 ```
-
+2. Install the dependencies:
+```bash
+pip install -r requirements.txt
+```
 ## Configuration
 1. Duplicate `.env.example` to `.env` and add the credentials:
 ```bash
@@ -48,4 +55,6 @@ Record, transcribe, and translate audio in real-time:
 
 ## Additional Information
 - `.gitignore` excludes `venv` and `output`.
-- The scripts ignore `.gitkeep` in `/videos`.
+- Scripts ignore `.gitkeep` in `/videos`.
+
+Follow this guide for efficient use of the Automatic Translations Project.
