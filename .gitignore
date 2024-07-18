@@ -1,8 +1,8 @@
-
 venv/
 .env
 /recording_sessions/*
 /output/*
+/uploadable_videos/*
 /videos/*
 !.gitkeep
 __pycache__

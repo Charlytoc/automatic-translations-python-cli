@@ -31,7 +31,13 @@ python main.py --language [IDIOMA_OBJETIVO] --action [ACCIÓN]
 - `--language` o `-l`: Especifica el idioma objetivo para la traducción (por defecto es inglés).
 - `--action` o `-a`: Define la última acción a realizar (opciones: extract, transcribe, translate, all).
 
-Selecciona un video e idioma, luego comienza el procesamiento.
+### Explicación de las acciones
+- Extract: Extrae el audio del video de origen
+- Transcribe: Transcribe el video de origen en formato vtt o json
+- Translate: Traduce la transcripcion en el idioma objetivo
+- All: Hace todo lo anterior y genera una nueva versión del vídeo en el idioma objetivo usando ElevenLabs (debes tener la API KEY)
+
+
 
 ## Uso de `record.py`
 Graba, transcribe y traduce audio en tiempo real:
@@ -42,11 +48,10 @@ Graba, transcribe y traduce audio en tiempo real:
 3. ¡Después de eso, solo presiona `Enter` para comenzar a grabar y listo!
 
 ## Salida
-- `main.py`: Audio MP3, transcripción, traducción y audio traducido en `/output`.
+- `main.py`: Audio MP3, transcripción, traducción y audio traducido en `/output`, adicionalmente el video traducido si seleccionaste todo.
 - `record.py`: Grabaciones WAV, transcripciones, traducciones y audio traducido en `recording_sessions`.
 
 ## Información Adicional
 - `.gitignore` excluye `venv` y `output`.
 - Los scripts ignoran `.gitkeep` en `/videos`.
 
-Sigue esta guía para un uso eficiente del Proyecto de Traducciones Automáticas.
