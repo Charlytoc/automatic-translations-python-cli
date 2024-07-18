@@ -3,6 +3,10 @@ from dotenv import load_dotenv
 from elevenlabs import generate, save, Voice, play
 
 load_dotenv(dotenv_path="../.env")
+
+class Characters:
+    charlytoc: str = "usraRfoSxw13bmVgUyT4"
+
 VOICE_ID = os.environ.get("ELEVEN_VOICE_ID")
 
 def generate_audio(

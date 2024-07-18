@@ -14,17 +14,16 @@ class TranscriptionResult:
         self.segments = segments
         self.timestamps = timestamps
 
-def transcribe_audio(audio_file_path) -> str:
+def transcribe_audio(audio_file_path, output_format="verbose_json") -> str:
     with open(audio_file_path, "rb") as audio_file:
         transcription = client.audio.transcriptions.create(
-            response_format="verbose_json",
+            response_format=output_format,
             model="whisper-1", 
             file=audio_file
         )
 
-    segments = [segment['text'] for segment in transcription.segments]
-    timestamps = [segment['start'] for segment in transcription.segments]
-    # return TranscriptionResult(transcription.text, segments, timestamps)
+    if output_format == "vtt":
+        return transcription
     return transcription.text
 
 def translate_transcription(transcription:str, target_language="English"):
