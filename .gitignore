@@ -6,3 +6,4 @@ venv/
 /videos/*
 !.gitkeep
 __pycache__
+notes/*

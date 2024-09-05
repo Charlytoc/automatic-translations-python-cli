@@ -1,7 +1,12 @@
 import os
+import tempfile
+import asyncio
 from openai import OpenAI
 from dotenv import load_dotenv
 from .utils import print_colored
+from pydub import AudioSegment
+from pydub.playback import play
+
 load_dotenv()
 
 client = OpenAI(
@@ -40,6 +45,21 @@ def translate_transcription(transcription:str, target_language="English"):
     )
     return completion.choices[0].message.content
 
+
+def create_completion_openai(system_prompt:str,user_message: str):
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        max_tokens=200,
+        messages=[
+            {
+                "role": "system",
+                "content": system_prompt,
+            },
+            {"role": "user", "content": user_message},
+        ],
+    )
+    return completion.choices[0].message.content
+
 def translate_transcription_segments(transcription_segments: list[str], target_language="English"):
     # Verify each segment is a string and join them with '$\n'
     transcription_segments_str = "_step_".join(str(segment) for segment in transcription_segments)
@@ -61,3 +81,50 @@ def translate_transcription_segments(transcription_segments: list[str], target_l
     )
     return completion.choices[0].message.content
 
+
+async def generate_speech_stream(text: str, output_path: str, model: str = "tts-1", voice: str = "alloy", output_format: str = "mp3"):
+    try:
+        with open(output_path, "wb") as output_file:
+            response = client.audio.speech.create(
+                model=model,
+                voice=voice,
+                input=text
+            )
+        
+            response.stream_to_file(output_file.name)
+
+            # Play the audio file
+            audio = AudioSegment.from_file(output_file.name, format=output_format)
+            play(audio)
+
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+
+import requests
+
+def generate_speech_api(text: str, model: str = "tts-1-1106", voice: str = "onyx") -> bytes:
+    try:
+        response = requests.post(
+            "https://api.openai.com/v1/audio/speech",
+            headers={
+                "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
+            },
+            json={
+                "model": model,
+                "input": text,
+                "voice": voice,
+            },
+        )
+
+        response.raise_for_status()  # Raise an error for bad status codes
+
+        audio = b""
+        for chunk in response.iter_content(chunk_size=1024 * 1024):
+            audio += chunk
+
+        return audio
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+        return b""

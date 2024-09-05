@@ -3,9 +3,9 @@ from .utils import print_colored
 
 
 def create_completion_ollama(system_prompt, prompt, stream=False):
-    client = OpenAI(base_url="http://localhost:11434/v1", api_key="llama3")
+    client = OpenAI(base_url="http://localhost:11434/v1", api_key="llama3.1")
     response = client.chat.completions.create(
-        model="llama3",
+        model="llama3.1",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt},
