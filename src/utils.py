@@ -1,3 +1,7 @@
+import webbrowser
+import re
+
+
 def print_colored(text, color='white'):
     colors = {
         'black': '\033[30m',
@@ -51,3 +55,48 @@ def print_colored(text, color='white'):
 #             last_segment_path = f"{output_dir}/End_of_video.mp4"
 #             last_segment.write_videofile(last_segment_path)
 #             print_colored("Last segment saved.", "blue")
+
+
+
+
+def open_email(recipient, subject, body):
+    # Formatear la URL mailto
+    mailto_url = f"mailto:{recipient}?subject={subject}&body={body}"
+    
+    # Abrir el cliente de correo predeterminado con la URL mailto
+    webbrowser.open(mailto_url)
+
+
+
+
+
+def extract_python_code(text):
+    # Regular expression to find content inside <python> tags
+    pattern = re.compile(r'<python>(.*?)</python>', re.DOTALL)
+    
+    # Find all matches
+    matches = pattern.findall(text)
+    
+    # Remove the <python> content from the original text
+    cleaned_text = pattern.sub('', text)
+    
+    # Join all matches to form the executable part
+    executable_code = '\n'.join(matches)
+    
+    return executable_code, cleaned_text
+
+
+
+def execute_python_code(code):
+    try:
+        exec(code)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+# Function to execute code with access to external functions
+def execute_python_code_with_external_functions(code):
+    try:
+        exec(code, globals())
+    except Exception as e:
+        print(f"An error occurred: {e}")
